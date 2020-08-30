@@ -43,5 +43,5 @@ java -jar DWPDigital-1.0-SNAPSHOT.jar
 Swagger can be access through
 
 ```sh
-http(s)://server:port/swagger-ui.html
+http(s)://[server]:[port]/swagger-ui.html
 ```
