@@ -6,8 +6,8 @@ import com.dwp.location.exception.DWPInvalidDataException;
 import com.dwp.location.model.Coordinates;
 import com.dwp.location.model.User;
 import com.dwp.location.service.LocationService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,8 +22,9 @@ public class LocationServiceImpl implements LocationService {
         this.client = client;
     }
 
-    private Double getDistanceBetweenCoordinates(Coordinates source, Coordinates destination) {
-        if(isAnyNull(source.getLatitude(), source.getLongitude(), destination.getLongitude(), destination.getLatitude())) {
+    @Override
+    public Double getDistanceBetweenCoordinates(Coordinates source, Coordinates destination) {
+        if(ObjectUtils.anyNull(source.getLatitude(), source.getLongitude(), destination.getLongitude(), destination.getLatitude())) {
             throw new DWPInvalidDataException("Either Source or Destination is invalid!");
         }
         if(source.equals(destination)) {
@@ -35,15 +36,6 @@ public class LocationServiceImpl implements LocationService {
         dist = rad2deg(dist);
         dist = dist * 60 * 1.1515;
         return (dist);
-    }
-
-    private boolean isAnyNull(Object...objects) {
-        for(Object object : objects) {
-            if(Objects.isNull(object)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     //Convert degrees to radians

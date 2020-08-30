@@ -78,6 +78,43 @@ public class LocationControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
+    @Test
+    public void testDistanceBetweenTwoCities() throws Exception {
+        when(locationService.getDistanceBetweenCoordinates(any(), any())).thenReturn(Double.valueOf(50));
+        mockMvc.perform(get("/api/v1/distance?sourceCity=LONDON&destinationCity=MANCHESTER")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testDistanceBetweenTwoCoordinates() throws Exception {
+        when(locationService.getDistanceBetweenCoordinates(any(), any())).thenReturn(Double.valueOf(50));
+        mockMvc.perform(get("/api/v1/distance/coordinates?lat1=51.50853&lon1=-0.12574&lat2=53.4808&lon2=0.1133")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+
+    @Test
+    public void testDistanceBetweenTwoInvalidCities() throws Exception {
+        when(locationService.getDistanceBetweenCoordinates(any(), any())).thenReturn(Double.valueOf(50));
+        mockMvc.perform(get("/api/v1/distance?sourceCity=&destinationCity=")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().json("{\"message\": \"Invalid Data found, please try with valid data\"}"));
+    }
+
+
+    @Test
+    public void testInvalidInputs() throws Exception {
+        when(locationService.getDistanceBetweenCoordinates(any(), any())).thenReturn(Double.valueOf(50));
+        mockMvc.perform(get("/api/v1/distance/coordinates?lat1=51.50853&lon1=-0.12574&lat2=53.4808&lon2=abcd")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().json("{\"message\": \"Application encountered an error, please contact administrator for details\"}"));
+    }
+
+
     private List<User> getUsers() {
         User user1 = new User();
         user1.setEmail("abc@abc.com");
