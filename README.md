@@ -1,4 +1,4 @@
-# DWP Digital
+# Digital
 The application is a basic standalone web application which reads data from an API and have exposed the below functionalities throgh an API
 
   - Find users who stays with X(default 50 miles) miles from London
