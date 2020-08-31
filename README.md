@@ -25,9 +25,6 @@ All open source framework and libraries used
 * Apache commons
 * Junit for testing
 
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
-
 ### Running instructions
 
 Run the following on the same level as pom.xml
